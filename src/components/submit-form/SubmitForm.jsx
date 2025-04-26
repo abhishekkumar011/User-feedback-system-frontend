@@ -49,8 +49,8 @@ const SubmitForm = () => {
       errors.push("Please enter a valid email");
     }
 
-    if (formData.message.trim().length < 10) {
-      errors.push("Feedback message must be at least 10 characters.");
+    if (formData.message.trim().length < 20) {
+      errors.push("Feedback message must be at least 20 characters.");
     }
 
     if (errors.length > 0) {

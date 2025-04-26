@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,38 @@ import { FeedbackList } from "../../components";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+
+  const [feedbacks, setFeedbacks] = useState([]);
+  const [sortOrder, setSortOrder] = useState("newest");
+  const [filterCategory, setFilterCategory] = useState("");
+
+  useEffect(() => {
+    const fetchFeedbacks = async () => {
+      try {
+        const response = await fetch(import.meta.env.VITE_API_ENDPOINT);
+        const data = await response.json();
+        setFeedbacks(data.feedbacks || []);
+      } catch (error) {
+        console.error("Error fetching feedbacks: ", error);
+      }
+    };
+    fetchFeedbacks();
+  }, []);
+
+  const filteredFeedbacks = feedbacks
+    .filter((fb) => {
+      return filterCategory && filterCategory !== "all"
+        ? fb.category === filterCategory
+        : true;
+    })
+    .sort((a, b) => {
+      if (sortOrder === "newest") {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      } else {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      }
+    });
+
   return (
     <div className="mx-auto space-y-6 my-10 px-50">
       <Button
@@ -50,7 +82,7 @@ const Dashboard = () => {
         </div>
 
         <div className="flex gap-4 mb-4">
-          <Select>
+          <Select value={filterCategory} onValueChange={setFilterCategory}>
             <SelectTrigger className="w-1/2">
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
@@ -62,7 +94,7 @@ const Dashboard = () => {
             </SelectContent>
           </Select>
 
-          <Select>
+          <Select value={sortOrder} onValueChange={setSortOrder}>
             <SelectTrigger className="w-1/2">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
@@ -77,9 +109,14 @@ const Dashboard = () => {
       {/* Result */}
       <div className="space-y-6">
         <h1 className="text-2xl font-semibold mb-5">Results</h1>
-        <FeedbackList />
-        <FeedbackList />
-        <FeedbackList />
+        {feedbacks.length === 0 && (
+          <p className="text-xl text-center">
+            No Feedback to show, First you have to post feedback
+          </p>
+        )}
+        {filteredFeedbacks.map((fb) => (
+          <FeedbackList key={fb._id} item={fb} />
+        ))}
       </div>
     </div>
   );
