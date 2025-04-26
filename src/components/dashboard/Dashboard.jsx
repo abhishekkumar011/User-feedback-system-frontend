@@ -46,7 +46,7 @@ const Dashboard = () => {
     });
 
   return (
-    <div className="mx-auto space-y-6 my-10 px-50">
+    <div className="mx-auto space-y-6 my-10 px-5 lg:px-50">
       <Button
         className="cursor-pointer"
         variant={"ghost"}
@@ -56,17 +56,17 @@ const Dashboard = () => {
         Back to Home
       </Button>
 
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
         <div className="space-y-1">
           <h1 className="text-4xl font-semibold">Feedback Dashboard</h1>
-          <p className="text-gray-600 text-md">
+          <p className="text-gray-600 text-md text-center md:text-left">
             view and manage all submitted feedback.
           </p>
         </div>
 
         <Button
           onClick={() => navigate("/submit")}
-          className="text-md cursor-pointer px-8 py-5"
+          className="text-md cursor-pointer px-8 py-5 w-full sm:w-fit"
         >
           Submit New Feedback
         </Button>
@@ -74,16 +74,16 @@ const Dashboard = () => {
 
       {/* Filter box  */}
       <div className="border border-gray-300 rounded-md p-5 space-y-5">
-        <div>
+        <div className="text-center md:text-left">
           <h1 className="text-2xl font-semibold">Filter and Sort</h1>
           <p className="text-gray-600">
             Narrow down feedback by category, or sort order
           </p>
         </div>
 
-        <div className="flex gap-4 mb-4">
+        <div className="flex flex-col md:flex-row gap-4 mb-4">
           <Select value={filterCategory} onValueChange={setFilterCategory}>
-            <SelectTrigger className="w-1/2">
+            <SelectTrigger className="w-full md:w-1/2">
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
             <SelectContent>
@@ -95,7 +95,7 @@ const Dashboard = () => {
           </Select>
 
           <Select value={sortOrder} onValueChange={setSortOrder}>
-            <SelectTrigger className="w-1/2">
+            <SelectTrigger className="w-full md:w-1/2">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -108,7 +108,7 @@ const Dashboard = () => {
 
       {/* Result */}
       <div className="space-y-6">
-        <h1 className="text-2xl font-semibold mb-5">Results</h1>
+        <h1 className="text-2xl font-semibold mb-5 text-center md:text-left">Results</h1>
         {feedbacks.length === 0 && (
           <p className="text-xl text-center">
             No Feedback to show, First you have to post feedback
