@@ -7,9 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12 space-y-8 px-3">
       <div className="text-center space-y-4">
@@ -34,7 +37,12 @@ const HeroSection = () => {
             </p>
           </CardContent>
           <CardFooter>
-            <Button className="w-full">Submit Feedback</Button>
+            <Button
+              className="w-full cursor-pointer"
+              onClick={() => navigate("/submit")}
+            >
+              Submit Feedback
+            </Button>
           </CardFooter>
         </Card>
 
@@ -49,7 +57,11 @@ const HeroSection = () => {
             <p>Access our dashboard to view all submitted feedback.</p>
           </CardContent>
           <CardFooter>
-            <Button variant="outline" className="w-full">
+            <Button
+              variant="outline"
+              className="w-full cursor-pointer"
+              onClick={() => navigate("/dashboard")}
+            >
               View Dashboard
             </Button>
           </CardFooter>
